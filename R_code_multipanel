@@ -1,0 +1,23 @@
+# Multipanel in R : second lesson
+install.packages("sp")
+#I will install new packages found on the web
+#the softwer R will distinguish between normal and capital letters
+install.packages("GGally")
+library(GGally)
+library(sp) #require(sp) will also do the job
+data(meuse) #there is a dataset available named meuse
+attach(meuse)
+#Exercise : see the names of the variables and plot cadmius vs zinc
+#there are 2 ways to know the names of the database:
+#name(meuse) and head(meuse) 
+plot(cadmium,zinc,pch=12,col=red)
+pairs(meuse) #to see the group of graphs
+pairs(~ cadmium + copper + zinc + lead, data=meuse) #to see another group of graphs
+pairs(meuse[,3:6]) #other manner to see the graphs of the dataset we used before
+#exercise : prettify with the graph
+pairs(meuse[,3:6,col="purple",pch=14, cex=2])
+#not working close the quadratic paranthesis
+pairs(meuse[,3:6],col="purple",pch=14, cex=2)
+
+#GGallypackage will prettify the graph
+ggpairs(meuse[,3:6])
