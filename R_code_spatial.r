@@ -53,19 +53,26 @@ library(ggplot2)  #require(ggplot2)
 
 # type q() to save the data and close
 
+setwd("C:/lab/")
+                    
+load("spatial.RData")             
 
+ls()
+#covid
 
+                    
+library(ggplot2)               
+data(mpg)
+head(mpg)
+# key components : data, aesthetic, geometry
+ggplot(mpg, aes(x = displ, y=hwy)) + geom_point()
 
+ggplot(mpg, aes(x = displ, y=hwy)) + geom_line()
 
+ggplot(mpg, aes(x=displ,y=hwy)) + geom_polygon()
 
-
-
-
-
-
-
-
-
+head(covid)
+ggplot(covid,aes( x= lon, y=lat, size=cases)) + geom_point()
 
 
 
