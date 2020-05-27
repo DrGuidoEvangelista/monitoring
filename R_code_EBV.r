@@ -45,6 +45,55 @@ par(mfrow=c(1,2))
 plotRGB(snt,4,3,2, stretch="lin", main="original image") 
 plot(sd_snt, col=cl, main="diversity")
 
+#lesson 27/05 cladonya
+# lichens are a measure of good air quality, if not present it means that the environment is polluted
+# we will brick this image and calculate the variability in this image 
+
+#brick function : improt several layers at the same time (raster import only 1 layer)
+library(raster)
+setwd("C:/lab/")
+clad <- brick("cladonia_stellaris_calaita.JPG")
+plotRGB(clad,1,2,3, stretch="lin")  #to see the image in R
+#let's build the window
+window <- matrix(1, nrow=3, ncol=3)   #the number 1 is to set a number for the pixels but not impacting (arbitrary value)
+window
+library(RStoolbox)
+
+#PCA Analysis
+cladpca <- rasterPCA(clad)
+cladpca
+summary(cladpca$model)
+plotRGB(cladpca$map, 1, 2, 3, stretch="lin")
+
+#set the moving window
+window <- matrix(1, nrow=3, ncol=3)   
+window
+
+sd_clad <- focal(cladpca$map$PC1, w=window, fun=sd)
+PC1_agg <- aggregate(cladpca$map$PC1, fact=10)
+sd_clad_agg <- focal(PC1_agg, w=window, fun=sd)  #sd_clad = standard deviation clad
+
+# par function = several graphs
+#plot the calculation
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('yellow','violet','black'))(100) 
+plot(sd_clad, col=cl)
+plot(sd_clad_agg, col=cl)
+#with this graph we can see the standard gradation in the cladonya image
+# plot the calculation
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('yellow','violet','black'))(100) #
+plot()
+plotRGB(clad, 1,2,3, stretch="lin")
+plot(sd_clad, col=cl)
+
+
+
+
+
+
+
+
 
 
 
