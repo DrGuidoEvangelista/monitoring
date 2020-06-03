@@ -46,8 +46,42 @@ plot(snow.multitemp, col=cl)
 #let's make a prediction  (use the file prediction.r downloaded from iol)
 source("prediction.r")
 
+##############
+#03/06 lecture
+setwd("C:/lab/snow")
+
+#Exercise : import the snow cover images all together
+rlist <- list.files(pattern="snow20")
+rlist
+import <- lapply(rlist, raster)
+snow.multitemp <- stack(import)
+cl <- colorRampPalette(c('darkblue','blue','light blue'))(100) 
+plot(snow.multitemp, col=cl)
 
 
+
+#download the predicted snow date of 2025 based of the previous trends
+#let's load the image
+prediction <- raster("predicted2025r.tif")
+plot(prediction, col=cl)
+
+#export the output
+#writeRaster is creating a data, not only exporting a graph
+writeRaster(prediction, "final.tif")
+final.stack <- stack(snow.multitemp, prediction)
+plot(final.stack, col=cl)
+
+# REMEMBER THESE FUNCTIONS 
+
+# export the R file into a pdf file
+pdf("snow_graph.pdf")
+plot(final.stack, col=cl)
+dev.off()
+
+#export the R file into a png file
+png("snow_graph.png")
+plot(final.stack, col=cl)
+dev.off()
 
 
 
